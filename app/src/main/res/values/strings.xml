@@ -2,4 +2,9 @@
     <string name="app_name">DogBreedDirectory</string>
     <string name="settings">Settings</string>
     <string name="favourites">Favourites</string>
+    <string name="sort_dogs">Sort dogs:</string>
+    <string name="a_z"><![CDATA[A -> Z]]></string>
+    <string name="z_a"><![CDATA[Z -> A]]></string>
+    <string name="smallest_to_largest">Smallest to Largest</string>
+    <string name="largest_to_smallest">Largest to Smallest</string>
 </resources>

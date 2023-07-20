@@ -1,11 +1,14 @@
 package com.paskauskyte.dogbreeddirectory
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.paskauskyte.dogbreeddirectory.databinding.ActivityMainBinding
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
+import com.paskauskyte.dogbreeddirectory.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +41,17 @@ class MainActivity : AppCompatActivity() {
             if (addBackStack) {
                 addToBackStack(tag)
             }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
