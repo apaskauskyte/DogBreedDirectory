@@ -8,6 +8,13 @@
 
     tools:context=".dog_breeds.DogBreedsFragment">
 
+    <EditText
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter text to search"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dogBreedsRecyclerView"
         android:layout_width="match_parent"
@@ -15,8 +22,7 @@
         android:clipToPadding="false"
         android:scrollbars="vertical"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
         tools:listitem="@layout/fragment_dog_breeds_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
