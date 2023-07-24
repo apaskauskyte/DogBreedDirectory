@@ -8,7 +8,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -107,8 +109,15 @@ class DogBreedsFragment : Fragment() {
         _binding = null
     }
 
+    private fun transferDataToDogBreedDetailsFragment(dogBreed: DogBreed) {
+        val bundle = bundleOf(KEY_DOG_BREED to dogBreed)
+        setFragmentResult(REQUEST_KEY_DOG_BREED, bundle)
+    }
+
     companion object {
         const val TAG = "dog_breeds_fragment"
+        const val REQUEST_KEY_DOG_BREED = "breed_fragment_result_key"
+        const val KEY_DOG_BREED = "key_breed"
         fun newInstance() = DogBreedsFragment()
     }
 }

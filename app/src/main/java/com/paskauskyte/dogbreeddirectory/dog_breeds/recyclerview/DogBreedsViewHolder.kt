@@ -11,11 +11,11 @@ class DogBreedsViewHolder(
     private var currentDogBreed: DogBreed? = null
 
     init {
-        binding.root.setOnClickListener { currentDogBreed?.let { dogBreed -> onClick(dogBreed) } }
+        binding.root.setOnClickListener { currentDogBreed?.let { breed -> onClick(breed) } }
     }
 
-    fun bind(dogBreed: DogBreed) {
-        currentDogBreed = dogBreed
-        binding.dogBreedTextView.text = dogBreed.name
+    fun bind(breed: DogBreed) {
+        currentDogBreed = breed
+        binding.dogBreedTextView.text = breed.name
     }
 }

@@ -12,7 +12,8 @@
         android:id="@+id/breedName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp"
         android:text="@string/breed_name"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -22,8 +23,8 @@
 
     <ImageView
         android:id="@+id/breedImageView"
-        android:layout_width="330dp"
-        android:layout_height="250dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/baseline_image_24"
@@ -45,18 +46,6 @@
         app:layout_constraintTop_toBottomOf="@+id/breedImageView" />
 
     <TextView
-        android:id="@+id/lifeSpan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/life_span"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/bredFor" />
-
-    <TextView
         android:id="@+id/temperament"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +55,7 @@
         android:layout_marginBottom="16dp"
         android:text="@string/temperament"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/lifeSpan" />
+        app:layout_constraintTop_toBottomOf="@+id/bredFor" />
 
     <TextView
         android:id="@+id/origin"
@@ -79,5 +68,17 @@
         android:text="@string/origin"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/temperament" />
+
+    <TextView
+        android:id="@+id/lifeSpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/life_span"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/origin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
