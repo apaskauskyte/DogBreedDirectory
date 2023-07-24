@@ -7,4 +7,9 @@
     <string name="z_a"><![CDATA[Z -> A]]></string>
     <string name="smallest_to_largest">Smallest to Largest</string>
     <string name="largest_to_smallest">Largest to Smallest</string>
+    <string name="breed_name">Breed name</string>
+    <string name="bred_for">Bred for</string>
+    <string name="life_span">Life span</string>
+    <string name="temperament">Temperament</string>
+    <string name="origin">Origin</string>
 </resources>

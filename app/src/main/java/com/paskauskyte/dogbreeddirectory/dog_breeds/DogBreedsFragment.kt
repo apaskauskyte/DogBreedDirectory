@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.paskauskyte.dogbreeddirectory.MainActivity
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedsBinding
 import com.paskauskyte.dogbreeddirectory.dog_breeds.recyclerview.DogBreedsAdapter
@@ -47,11 +48,16 @@ class DogBreedsFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         binding.dogBreedsRecyclerView.apply {
-            recyclerAdapter = DogBreedsAdapter { dogBreed -> }
+            recyclerAdapter = DogBreedsAdapter { dogBreed -> onDogBreedCLick(dogBreed) }
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
+    }
+
+    private fun onDogBreedCLick(dogBreed: DogBreed) {
+        (activity as MainActivity).openDogBreedDetails()
+        transferDataToDogBreedDetailsFragment(dogBreed)
     }
 
     private fun observeDogBreedStateFlow() {

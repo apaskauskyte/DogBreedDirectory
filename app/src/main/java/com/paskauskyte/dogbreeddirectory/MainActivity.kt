@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.paskauskyte.dogbreeddirectory.databinding.ActivityMainBinding
+import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsFragment
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
 import com.paskauskyte.dogbreeddirectory.settings.SettingsActivity
 
@@ -26,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDogBreedsFragment() {
         setCurrentFragment(DogBreedsFragment.newInstance(), DogBreedsFragment.TAG)
+    }
+
+    fun openDogBreedDetails() {
+        setCurrentFragment(DogBreedDetailsFragment.newInstance(), DogBreedDetailsFragment.TAG, true)
     }
 
     private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {
