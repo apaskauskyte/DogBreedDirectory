@@ -39,9 +39,10 @@ class DogBreedsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.fetchDogBreeds()
         setUpRecyclerView()
+        observeDogBreedStateFlow()
         setupSearchView()
-        addDogBreedsList()
     }
 
     private fun setUpRecyclerView() {
@@ -53,12 +54,15 @@ class DogBreedsFragment : Fragment() {
         }
     }
 
-    private fun addDogBreedsList() {
+    private fun observeDogBreedStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.dogBreedsStateFlow.collect { dogBreeds ->
-                    submitDogBreeds(dogBreeds)
+                viewModel.dogBreedsStateFlow.collect { response ->
+
+                    if (response != null) {
+                        submitDogBreeds(response)
+                    }
                 }
             }
         }
@@ -75,7 +79,7 @@ class DogBreedsFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.generateDogBreeds()
+
             }
 
             override fun afterTextChanged(s: Editable?) {

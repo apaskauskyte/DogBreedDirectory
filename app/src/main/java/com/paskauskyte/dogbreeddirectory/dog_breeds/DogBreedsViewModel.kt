@@ -1,33 +1,25 @@
 package com.paskauskyte.dogbreeddirectory.dog_breeds
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.paskauskyte.dogbreeddirectory.dog_api.DogApiServiceClient
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class DogBreedsViewModel : ViewModel() {
 
-    private val _dogBreedsStateFlow: MutableStateFlow<List<DogBreed>> =
-        MutableStateFlow(emptyList())
+    private val dogBreeds = listOf<DogBreed>()
 
+    private val _dogBreedsStateFlow: MutableStateFlow<List<DogBreed>?> =
+        MutableStateFlow(dogBreeds)
     val dogBreedsStateFlow = _dogBreedsStateFlow.asStateFlow()
 
-    init {
-        generateDogBreeds()
-    }
-
-    fun generateDogBreeds() {
-        val dogBreedsList = mutableListOf<DogBreed>()
-        for (i in 1..20) {
-            val dogBreedName = generateRandomDogBreed()
-            val dogBreed = DogBreed(dogBreedName)
-            dogBreedsList.add(dogBreed)
+    fun fetchDogBreeds() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = DogApiServiceClient.providesApiService().getDogBreeds()
+            _dogBreedsStateFlow.value = response.body()
         }
-
-        _dogBreedsStateFlow.value = dogBreedsList
-    }
-
-    private fun generateRandomDogBreed(): String {
-        val randomNumber = (0..100).random()
-        return "dogBreed$randomNumber"
     }
 }

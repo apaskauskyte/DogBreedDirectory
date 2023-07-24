@@ -16,6 +16,6 @@ class DogBreedsViewHolder(
 
     fun bind(dogBreed: DogBreed) {
         currentDogBreed = dogBreed
-        binding.dogBreedTextView.text = dogBreed.dogBreedName
+        binding.dogBreedTextView.text = dogBreed.name
     }
 }

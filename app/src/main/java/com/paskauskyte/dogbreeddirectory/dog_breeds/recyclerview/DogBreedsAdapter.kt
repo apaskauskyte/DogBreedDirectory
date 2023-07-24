@@ -12,11 +12,12 @@ class DogBreedsAdapter(
 ) : ListAdapter<DogBreed, DogBreedsViewHolder>(
     Comparator()
 ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DogBreedsViewHolder(
-        FragmentDogBreedsListBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false),
-        onClick
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        DogBreedsViewHolder(
+            FragmentDogBreedsListBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false),
+            onClick
+        )
 
     override fun onBindViewHolder(holder: DogBreedsViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
@@ -24,7 +25,7 @@ class DogBreedsAdapter(
 
     class Comparator : DiffUtil.ItemCallback<DogBreed>() {
         override fun areItemsTheSame(oldItem: DogBreed, newItem: DogBreed) =
-            oldItem.dogBreedName == newItem.dogBreedName
+            oldItem.name == newItem.name
 
         override fun areContentsTheSame(oldItem: DogBreed, newItem: DogBreed) =
             oldItem == newItem
