@@ -87,7 +87,7 @@ class DogBreedsFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                viewModel.filterDogBreedList(binding.searchView.text.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {

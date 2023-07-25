@@ -10,16 +10,27 @@ import kotlinx.coroutines.launch
 
 class DogBreedsViewModel : ViewModel() {
 
-    private val dogBreeds = listOf<DogBreed>()
-
     private val _dogBreedsStateFlow: MutableStateFlow<List<DogBreed>?> =
-        MutableStateFlow(dogBreeds)
+        MutableStateFlow(mutableListOf())
     val dogBreedsStateFlow = _dogBreedsStateFlow.asStateFlow()
+
+    private var dogList: List<DogBreed> = emptyList()
 
     fun fetchDogBreeds() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = DogApiServiceClient.providesApiService().getDogBreeds()
             _dogBreedsStateFlow.value = response.body()
+            dogList = _dogBreedsStateFlow.value!!
         }
+    }
+
+    fun filterDogBreedList(enteredText: String) {
+        val filteredList = mutableListOf<DogBreed>()
+        dogList.forEach {
+            if (it.name.contains(enteredText, true)) {
+                filteredList.add(it)
+            }
+        }
+        _dogBreedsStateFlow.value = filteredList
     }
 }
