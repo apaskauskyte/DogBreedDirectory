@@ -1,5 +1,6 @@
 package com.paskauskyte.dogbreeddirectory.dog_breeds
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -42,10 +43,16 @@ class DogBreedsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.setSortingMode(getSharedPref())
         viewModel.fetchDogBreeds()
         setUpRecyclerView()
         observeDogBreedStateFlow()
-        setupSearchView()
+        setUpSearchView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setSortingMode(getSharedPref())
     }
 
     private fun setUpRecyclerView() {
@@ -68,9 +75,7 @@ class DogBreedsFragment : Fragment() {
 
                 viewModel.dogBreedsStateFlow.collect { response ->
 
-                    if (response != null) {
-                        submitDogBreeds(response)
-                    }
+                    submitDogBreeds(response)
                 }
             }
         }
@@ -78,10 +83,19 @@ class DogBreedsFragment : Fragment() {
 
     private fun submitDogBreeds(list: List<DogBreed>) {
         recyclerAdapter?.submitList(list)
-        binding.dogBreedsRecyclerView.adapter = recyclerAdapter
     }
 
-    private fun setupSearchView() {
+    private fun getSharedPref(): DogBreedsViewModel.SortMode {
+        val sharedPrefs =
+            requireActivity().getSharedPreferences("sort_preference", Context.MODE_PRIVATE)
+        val sortingPreference = sharedPrefs.getBoolean("key_sort_az_on", true)
+        val sortMode: DogBreedsViewModel.SortMode = if (sortingPreference) {
+            DogBreedsViewModel.SortMode.AZ
+        } else DogBreedsViewModel.SortMode.ZA
+        return sortMode
+    }
+
+    private fun setUpSearchView() {
         binding.searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }

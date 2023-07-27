@@ -45,32 +45,32 @@ class DogBreedDetailsFragment : Fragment() {
             binding.apply {
                 breedName.text = breed.name
 
-                if (breed.bred_for == null) {
+                if (breed.bred_for.isNullOrEmpty()) {
                     binding.bredFor.visibility = View.GONE
                 } else {
                     bredFor.text = getString(R.string.bredForText, breed.bred_for)
                 }
 
-                if (breed.temperament == null) {
+                if (breed.temperament.isNullOrEmpty()) {
                     binding.temperament.visibility = View.GONE
                 } else {
                     temperament.text = getString(R.string.temperamentText, breed.temperament)
                 }
 
-                if (breed.origin == null) {
+                if (breed.origin.isNullOrEmpty()) {
                     binding.origin.visibility = View.GONE
                 } else {
                     origin.text = getString(R.string.originText, breed.origin)
                 }
 
-                if (breed.life_span == null) {
+                if (breed.life_span.isNullOrEmpty()) {
                     binding.lifeSpan.visibility = View.GONE
                 } else {
                     lifeSpan.text = getString(R.string.lifeSpanText, breed.life_span)
                 }
 
                 val url = breed.image.url
-                if (url == null) {
+                if (url.isNullOrEmpty()) {
                     binding.breedImageView.visibility = View.GONE
                 } else {
                     breedImageView.load(url) {

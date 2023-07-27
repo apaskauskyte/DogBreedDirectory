@@ -1,5 +1,6 @@
 package com.paskauskyte.dogbreeddirectory.settings
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,8 @@ class SettingsActivity : AppCompatActivity() {
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        readSortSettingButton()
     }
 
     fun onSortButtonClicked(view: View) {
@@ -23,26 +26,41 @@ class SettingsActivity : AppCompatActivity() {
             val checked = view.isChecked
 
             when (view.getId()) {
-                R.id.alphabetically ->
+                R.id.az ->
                     if (checked) {
-                        // Sort alphabetically
+                        saveSortSettingButton(true)
                     }
 
-                R.id.alphabeticallyReversed ->
+                R.id.za ->
                     if (checked) {
-                        // Sort alphabetically reversed
-                    }
-
-                R.id.byWeight ->
-                    if (checked) {
-                        // Sort by weight
-                    }
-
-                R.id.byWeightReversed ->
-                    if (checked) {
-                        // Sort by weight reversed
+                        saveSortSettingButton(false)
                     }
             }
+        }
+    }
+
+    private fun saveSortSettingButton(value: Boolean) {
+        val sharedPreferences = this.getSharedPreferences("sort_preference", Context.MODE_PRIVATE) ?: return
+        with(sharedPreferences.edit()) {
+            putBoolean("key_sort_az_on", value)
+            apply()
+        }
+    }
+
+    private fun readSortSettingButton() {
+        val sharedPreferences = this.getSharedPreferences("sort_preference", Context.MODE_PRIVATE) ?: return
+        val defaultValue = true
+        val sortAlphabeticallyIsOn = sharedPreferences.getBoolean(
+            "key_sort_az_on",
+            defaultValue
+        )
+
+        if (sortAlphabeticallyIsOn) {
+            binding.az.isChecked = true
+            binding.za.isChecked = false
+        } else {
+            binding.az.isChecked = false
+            binding.za.isChecked = true
         }
     }
 }
