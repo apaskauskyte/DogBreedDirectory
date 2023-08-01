@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 class DogBreedsFragment : Fragment() {
 
     private val viewModel: DogBreedsViewModel by viewModels()
+
     private var recyclerAdapter: DogBreedsAdapter? = null
 
     private var _binding: FragmentDogBreedsBinding? = null
@@ -55,6 +56,16 @@ class DogBreedsFragment : Fragment() {
         viewModel.setSortingMode(getSharedPref())
     }
 
+    private fun getSharedPref(): DogBreedsViewModel.SortMode {
+        val sharedPrefs =
+            requireActivity().getSharedPreferences("sort_preference", Context.MODE_PRIVATE)
+        val sortingPreference = sharedPrefs.getBoolean("key_sort_az_on", true)
+        val sortMode: DogBreedsViewModel.SortMode = if (sortingPreference) {
+            DogBreedsViewModel.SortMode.AZ
+        } else DogBreedsViewModel.SortMode.ZA
+        return sortMode
+    }
+
     private fun setUpRecyclerView() {
         binding.dogBreedsRecyclerView.apply {
             recyclerAdapter = DogBreedsAdapter { dogBreed -> onDogBreedCLick(dogBreed) }
@@ -62,11 +73,6 @@ class DogBreedsFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
-    }
-
-    private fun onDogBreedCLick(dogBreed: DogBreed) {
-        (activity as MainActivity).openDogBreedDetails()
-        transferDataToDogBreedDetailsFragment(dogBreed)
     }
 
     private fun observeDogBreedStateFlow() {
@@ -85,16 +91,6 @@ class DogBreedsFragment : Fragment() {
         recyclerAdapter?.submitList(list)
     }
 
-    private fun getSharedPref(): DogBreedsViewModel.SortMode {
-        val sharedPrefs =
-            requireActivity().getSharedPreferences("sort_preference", Context.MODE_PRIVATE)
-        val sortingPreference = sharedPrefs.getBoolean("key_sort_az_on", true)
-        val sortMode: DogBreedsViewModel.SortMode = if (sortingPreference) {
-            DogBreedsViewModel.SortMode.AZ
-        } else DogBreedsViewModel.SortMode.ZA
-        return sortMode
-    }
-
     private fun setUpSearchView() {
         binding.searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -109,6 +105,16 @@ class DogBreedsFragment : Fragment() {
         })
     }
 
+    private fun onDogBreedCLick(dogBreed: DogBreed) {
+        transferDataToDogBreedDetailsFragment(dogBreed)
+        (activity as MainActivity).openDogBreedDetails()
+    }
+
+    private fun transferDataToDogBreedDetailsFragment(dogBreed: DogBreed) {
+        val bundle = bundleOf(KEY_DOG_BREED to dogBreed)
+        setFragmentResult(REQUEST_KEY_DOG_BREED, bundle)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -121,11 +127,6 @@ class DogBreedsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun transferDataToDogBreedDetailsFragment(dogBreed: DogBreed) {
-        val bundle = bundleOf(KEY_DOG_BREED to dogBreed)
-        setFragmentResult(REQUEST_KEY_DOG_BREED, bundle)
     }
 
     companion object {

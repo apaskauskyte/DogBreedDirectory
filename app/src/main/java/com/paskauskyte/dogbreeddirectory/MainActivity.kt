@@ -9,6 +9,7 @@ import androidx.fragment.app.commit
 import com.paskauskyte.dogbreeddirectory.databinding.ActivityMainBinding
 import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsFragment
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
+import com.paskauskyte.dogbreeddirectory.favorites.FavoritesFragment
 import com.paskauskyte.dogbreeddirectory.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +34,11 @@ class MainActivity : AppCompatActivity() {
         setCurrentFragment(DogBreedDetailsFragment.newInstance(), DogBreedDetailsFragment.TAG, true)
     }
 
+    private fun openFavoritesFragment() {
+        supportFragmentManager.popBackStack()
+        setCurrentFragment(FavoritesFragment.newInstance(), FavoritesFragment.TAG, true)
+    }
+
     private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {
         supportFragmentManager.commit {
             replace(
@@ -53,6 +59,11 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+
+            R.id.favorites -> {
+                openFavoritesFragment()
                 true
             }
 

@@ -1,5 +1,7 @@
 package com.paskauskyte.dogbreeddirectory.dog_breed_details
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -9,12 +11,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.size.ViewSizeResolver
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedDetailsBinding
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
+import com.paskauskyte.dogbreeddirectory.favorites.FavoritesFragment
+import kotlinx.coroutines.launch
 
 class DogBreedDetailsFragment : Fragment() {
 
@@ -34,8 +41,40 @@ class DogBreedDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeDogBreedDetails()
+        viewModel.setSharedPreferences(getSharedPref())
+        onClickFavoriteButton()
         receiveDataFromDogBreedsFragment()
+        receiveDataFromFavoritesFragment()
+        observeDogBreedDetails()
+        observeFavoriteButtonImage()
+    }
+
+    private fun getSharedPref(): SharedPreferences {
+        return requireActivity().getSharedPreferences("favorites_preference", Context.MODE_PRIVATE)
+    }
+
+    private fun onClickFavoriteButton() {
+        binding.favoriteButton.setOnClickListener {
+            viewModel.toggleDogSelectionToFavorites()
+        }
+    }
+
+    private fun receiveDataFromDogBreedsFragment() {
+        setFragmentResultListener(DogBreedsFragment.REQUEST_KEY_DOG_BREED) { requestKey, bundle ->
+            val breed = bundle.getParcelable<DogBreed>(DogBreedsFragment.KEY_DOG_BREED)
+                ?: return@setFragmentResultListener
+            viewModel.saveDogBreed(breed)
+            viewModel.getFavoriteButtonImageStateFlow()
+        }
+    }
+
+    private fun receiveDataFromFavoritesFragment() {
+        setFragmentResultListener(FavoritesFragment.REQUEST_KEY_FAVORITES) { requestKey, bundle ->
+            val breed = bundle.getParcelable<DogBreed>(FavoritesFragment.KEY_FAVORITE_DOG)
+                ?: return@setFragmentResultListener
+            viewModel.saveDogBreed(breed)
+            viewModel.getFavoriteButtonImageStateFlow()
+        }
     }
 
     private fun observeDogBreedDetails() {
@@ -81,6 +120,26 @@ class DogBreedDetailsFragment : Fragment() {
         }
     }
 
+    private fun observeFavoriteButtonImage() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.favoriteButtonStateFlow.collect { response ->
+
+                    setFavoriteButtonImage(response)
+                }
+            }
+        }
+    }
+
+    private fun setFavoriteButtonImage(dogIsFavorite: Boolean) {
+        if (dogIsFavorite) {
+            binding.favoriteButton.setImageResource(R.drawable.baseline_favorite_24)
+        } else {
+            binding.favoriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -93,14 +152,6 @@ class DogBreedDetailsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun receiveDataFromDogBreedsFragment() {
-        setFragmentResultListener(DogBreedsFragment.REQUEST_KEY_DOG_BREED) { requestKey, bundle ->
-            val breed = bundle.getParcelable<DogBreed>(DogBreedsFragment.KEY_DOG_BREED)
-                ?: return@setFragmentResultListener
-            viewModel.saveDogBreed(breed)
-        }
     }
 
     companion object {

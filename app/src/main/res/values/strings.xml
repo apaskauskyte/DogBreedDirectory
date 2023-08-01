@@ -16,4 +16,5 @@
     <string name="lifeSpanText">Dog has a lifespan of: %s</string>
     <string name="temperamentText">Dogs temperament is: %s</string>
     <string name="originText">Origin of this dog is: %s</string>
+    <string name="no_dogs_are_favorites_go_choose_your_favorite_pups">No dogs are favorites. Go choose your favorite pups!</string>
 </resources>
