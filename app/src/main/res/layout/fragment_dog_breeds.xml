@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter text to search"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dogBreedsRecyclerView"
@@ -24,5 +24,18 @@
         android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@+id/searchView"
         tools:listitem="@layout/fragment_dog_breeds_list" />
+
+    <Button
+        android:id="@+id/dogOfTheDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#8CC0DE"
+        android:text="@string/dog_of_the_day"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

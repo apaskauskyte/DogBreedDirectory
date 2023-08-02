@@ -49,6 +49,7 @@ class DogBreedsFragment : Fragment() {
         setUpRecyclerView()
         observeDogBreedStateFlow()
         setUpSearchView()
+        onDogOfTheDayButtonClick()
     }
 
     override fun onResume() {
@@ -108,6 +109,12 @@ class DogBreedsFragment : Fragment() {
     private fun onDogBreedCLick(dogBreed: DogBreed) {
         transferDataToDogBreedDetailsFragment(dogBreed)
         (activity as MainActivity).openDogBreedDetails()
+    }
+
+    private fun onDogOfTheDayButtonClick() {
+        binding.dogOfTheDay.setOnClickListener{
+            (activity as MainActivity).openDogOfTheDayFragment()
+        }
     }
 
     private fun transferDataToDogBreedDetailsFragment(dogBreed: DogBreed) {

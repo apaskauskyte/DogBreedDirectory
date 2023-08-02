@@ -9,6 +9,7 @@ import androidx.fragment.app.commit
 import com.paskauskyte.dogbreeddirectory.databinding.ActivityMainBinding
 import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsFragment
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
+import com.paskauskyte.dogbreeddirectory.dog_of_the_day.DogOfTheDayFragment
 import com.paskauskyte.dogbreeddirectory.favorites.FavoritesFragment
 import com.paskauskyte.dogbreeddirectory.settings.SettingsActivity
 
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
     private fun openFavoritesFragment() {
         supportFragmentManager.popBackStack()
         setCurrentFragment(FavoritesFragment.newInstance(), FavoritesFragment.TAG, true)
+    }
+
+    fun openDogOfTheDayFragment() {
+        setCurrentFragment(DogOfTheDayFragment.newInstance(), DogOfTheDayFragment.TAG, true)
     }
 
     private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {

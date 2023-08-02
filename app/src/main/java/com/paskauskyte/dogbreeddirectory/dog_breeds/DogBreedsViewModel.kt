@@ -34,6 +34,14 @@ class DogBreedsViewModel : ViewModel() {
         }
     }
 
+    private fun sortDogList(): List<DogBreed> {
+        val sortedDogList = when (sortMode) {
+            SortMode.AZ -> _dogBreedsStateFlow.value.sortedBy { it.name }
+            SortMode.ZA -> _dogBreedsStateFlow.value.sortedByDescending { it.name }
+        }
+        return sortedDogList
+    }
+
     fun filterDogBreedList(enteredText: String) {
         val filteredList = mutableListOf<DogBreed>()
         dogList.forEach {
@@ -42,14 +50,6 @@ class DogBreedsViewModel : ViewModel() {
             }
         }
         _dogBreedsStateFlow.value = filteredList
-    }
-
-    private fun sortDogList(): List<DogBreed> {
-        val sortedDogList = when (sortMode) {
-            SortMode.AZ -> _dogBreedsStateFlow.value.sortedBy { it.name }
-            SortMode.ZA -> _dogBreedsStateFlow.value.sortedByDescending { it.name }
-        }
-        return sortedDogList
     }
 
     enum class SortMode {
