@@ -18,7 +18,7 @@ import coil.load
 import coil.size.ViewSizeResolver
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedDetailsBinding
-import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
 import com.paskauskyte.dogbreeddirectory.favorites.FavoritesFragment
 import kotlinx.coroutines.launch
@@ -84,7 +84,7 @@ class DogBreedDetailsFragment : Fragment() {
             binding.apply {
                 breedName.text = breed.name
 
-                if (breed.bred_for.isNullOrEmpty()) {
+                if (breed.bredFor.isNullOrEmpty()) {
                     binding.bredFor.visibility = View.GONE
                 } else {
                     bredFor.text = getString(R.string.bredForText, breed.bred_for)
@@ -102,7 +102,7 @@ class DogBreedDetailsFragment : Fragment() {
                     origin.text = getString(R.string.originText, breed.origin)
                 }
 
-                if (breed.life_span.isNullOrEmpty()) {
+                if (breed.lifeSpan.isNullOrEmpty()) {
                     binding.lifeSpan.visibility = View.GONE
                 } else {
                     lifeSpan.text = getString(R.string.lifeSpanText, breed.life_span)

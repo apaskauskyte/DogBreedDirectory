@@ -3,8 +3,8 @@ package com.paskauskyte.dogbreeddirectory.dog_of_the_day
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paskauskyte.dogbreeddirectory.dog_api.DogApiServiceClient
-import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -20,14 +20,13 @@ class DogOfTheDayViewModel : ViewModel() {
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            fetchAllDogs()
+            getDogList()
             getDogOfTheDay()
         }
     }
 
-    private suspend fun fetchAllDogs() {
-        val response = DogApiServiceClient.providesApiService().getDogBreeds()
-        dogList = response.body() ?: emptyList()
+    private suspend fun getDogList() {
+        dogList = DogBreedRepository.instance.fetchDogList()
     }
 
     private fun getDogOfTheDay() {

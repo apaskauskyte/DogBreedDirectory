@@ -2,7 +2,7 @@ package com.paskauskyte.dogbreeddirectory.dog_breeds.recyclerview
 
 import androidx.recyclerview.widget.RecyclerView
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedsListBinding
-import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 
 class DogBreedsViewHolder(
     private val binding: FragmentDogBreedsListBinding,

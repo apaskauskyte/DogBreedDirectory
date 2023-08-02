@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedsListBinding
-import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 
 class FavoritesAdapter(
     private val onClick: (DogBreed) -> Unit

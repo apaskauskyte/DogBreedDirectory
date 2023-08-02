@@ -39,7 +39,7 @@ class DogOfTheDayFragment : Fragment() {
             binding.apply {
                 breedName.text = dogOfTheDay.name
 
-                if (dogOfTheDay.bred_for.isNullOrEmpty()) {
+                if (dogOfTheDay.bredFor.isNullOrEmpty()) {
                     binding.bredFor.visibility = View.GONE
                 } else {
                     bredFor.text = getString(R.string.bredForText, dogOfTheDay.bred_for)
@@ -57,7 +57,7 @@ class DogOfTheDayFragment : Fragment() {
                     origin.text = getString(R.string.originText, dogOfTheDay.origin)
                 }
 
-                if (dogOfTheDay.life_span.isNullOrEmpty()) {
+                if (dogOfTheDay.lifeSpan.isNullOrEmpty()) {
                     binding.lifeSpan.visibility = View.GONE
                 } else {
                     lifeSpan.text = getString(R.string.lifeSpanText, dogOfTheDay.life_span)

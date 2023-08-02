@@ -1,6 +1,6 @@
 package com.paskauskyte.dogbreeddirectory.dog_api
 
-import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import retrofit2.Response
 import retrofit2.http.GET
 

@@ -2,7 +2,8 @@ package com.paskauskyte.dogbreeddirectory.dog_breeds
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paskauskyte.dogbreeddirectory.dog_api.DogApiServiceClient
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,10 +26,9 @@ class DogBreedsViewModel : ViewModel() {
         }
     }
 
-    fun fetchDogBreeds() {
+    fun getDogList() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = DogApiServiceClient.providesApiService().getDogBreeds()
-            _dogBreedsStateFlow.value = response.body() ?: emptyList()
+            _dogBreedsStateFlow.value = DogBreedRepository.instance.fetchDogList()
             _dogBreedsStateFlow.value = sortDogList()
             dogList = _dogBreedsStateFlow.value
         }

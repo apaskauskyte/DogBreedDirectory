@@ -20,7 +20,7 @@ import com.paskauskyte.dogbreeddirectory.MainActivity
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentFavoritesBinding
 import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsViewModel
-import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import com.paskauskyte.dogbreeddirectory.favorites.recyclerview.FavoritesAdapter
 
 class FavoritesFragment : Fragment() {
