@@ -18,6 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.paskauskyte.dogbreeddirectory.Constants.SORT_AZ_ON_KEY
+import com.paskauskyte.dogbreeddirectory.Constants.SORT_MODE_SHARED_PREFS_NAME
 import com.paskauskyte.dogbreeddirectory.MainActivity
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedsBinding
@@ -59,12 +61,17 @@ class DogBreedsFragment : Fragment() {
     }
 
     private fun getSharedPref(): DogBreedsViewModel.SortMode {
-        val sharedPrefs =
-            requireActivity().getSharedPreferences("sort_preference", Context.MODE_PRIVATE)
-        val sortingPreference = sharedPrefs.getBoolean("key_sort_az_on", true)
+        val sharedPrefs = requireActivity().getSharedPreferences(
+            SORT_MODE_SHARED_PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+
+        val sortingPreference = sharedPrefs.getBoolean(SORT_AZ_ON_KEY, true)
+
         val sortMode: DogBreedsViewModel.SortMode = if (sortingPreference) {
             DogBreedsViewModel.SortMode.AZ
         } else DogBreedsViewModel.SortMode.ZA
+
         return sortMode
     }
 
@@ -113,7 +120,7 @@ class DogBreedsFragment : Fragment() {
     }
 
     private fun onDogOfTheDayButtonClick() {
-        binding.dogOfTheDay.setOnClickListener{
+        binding.dogOfTheDay.setOnClickListener {
             (activity as MainActivity).openDogOfTheDayFragment()
         }
     }

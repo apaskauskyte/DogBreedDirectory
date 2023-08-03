@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import com.paskauskyte.dogbreeddirectory.Constants.SORT_AZ_ON_KEY
+import com.paskauskyte.dogbreeddirectory.Constants.SORT_MODE_SHARED_PREFS_NAME
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.ActivitySettingsBinding
 
@@ -40,20 +42,25 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun saveSortSettingButton(value: Boolean) {
-        val sharedPreferences = this.getSharedPreferences("sort_preference", Context.MODE_PRIVATE) ?: return
+        val sharedPreferences = this.getSharedPreferences(
+            SORT_MODE_SHARED_PREFS_NAME,
+            Context.MODE_PRIVATE
+        ) ?: return
+
         with(sharedPreferences.edit()) {
-            putBoolean("key_sort_az_on", value)
+            putBoolean(SORT_AZ_ON_KEY, value)
             apply()
         }
     }
 
     private fun readSortSettingButton() {
-        val sharedPreferences = this.getSharedPreferences("sort_preference", Context.MODE_PRIVATE) ?: return
+        val sharedPreferences = this.getSharedPreferences(
+            SORT_MODE_SHARED_PREFS_NAME,
+            Context.MODE_PRIVATE
+        ) ?: return
+
         val defaultValue = true
-        val sortAlphabeticallyIsOn = sharedPreferences.getBoolean(
-            "key_sort_az_on",
-            defaultValue
-        )
+        val sortAlphabeticallyIsOn = sharedPreferences.getBoolean(SORT_AZ_ON_KEY, defaultValue)
 
         if (sortAlphabeticallyIsOn) {
             binding.az.isChecked = true

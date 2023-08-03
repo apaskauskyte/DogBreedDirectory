@@ -3,8 +3,6 @@ package com.paskauskyte.dogbreeddirectory.favorites
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -16,12 +14,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.paskauskyte.dogbreeddirectory.Constants.FAVORITES_SHARED_PREFS_NAME
+import com.paskauskyte.dogbreeddirectory.Constants.FAVORITE_ON_KEY
 import com.paskauskyte.dogbreeddirectory.MainActivity
-import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentFavoritesBinding
 import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsViewModel
-import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import com.paskauskyte.dogbreeddirectory.favorites.recyclerview.FavoritesAdapter
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 
 class FavoritesFragment : Fragment() {
 
@@ -58,21 +57,23 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun getFavoriteDogsList() {
-        val sharedPref =
-            activity?.getSharedPreferences(
-                "favorites_preference",
-                Context.MODE_PRIVATE
-            ) ?: return
+        val sharedPref = activity?.getSharedPreferences(
+            FAVORITES_SHARED_PREFS_NAME,
+            Context.MODE_PRIVATE
+        ) ?: return
+
         val favoriteDogsListAsString =
-            sharedPref.getString("key_favorite_on", emptyList<DogBreed>().toString())
+            sharedPref.getString(FAVORITE_ON_KEY, emptyList<DogBreed>().toString())
 
         val listType = object : TypeToken<List<DogBreed>>() {}.type
+
         val favoriteDogsList =
             Gson().fromJson<List<DogBreed>>(favoriteDogsListAsString, listType).toMutableList()
 
         submitFavDogs(favoriteDogsList)
 
         val text: TextView = binding.textIfEmpty
+
         if (favoriteDogsList.isEmpty()) {
             text.visibility = View.VISIBLE
         } else {
@@ -99,15 +100,6 @@ class FavoritesFragment : Fragment() {
     private fun transferDataToDogBreedDetailsFragment(dogBreed: DogBreed) {
         val bundle = bundleOf(KEY_FAVORITE_DOG to dogBreed)
         setFragmentResult(REQUEST_KEY_FAVORITES, bundle)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.app_menu, menu)
     }
 
     override fun onDestroy() {

@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.size.ViewSizeResolver
+import com.paskauskyte.dogbreeddirectory.Constants.FAVORITES_SHARED_PREFS_NAME
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedDetailsBinding
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
@@ -50,7 +51,10 @@ class DogBreedDetailsFragment : Fragment() {
     }
 
     private fun getSharedPref(): SharedPreferences {
-        return requireActivity().getSharedPreferences("favorites_preference", Context.MODE_PRIVATE)
+        return requireActivity().getSharedPreferences(
+            FAVORITES_SHARED_PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
     }
 
     private fun onClickFavoriteButton() {

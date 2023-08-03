@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.paskauskyte.dogbreeddirectory.Constants.FAVORITE_ON_KEY
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,7 +46,7 @@ class DogBreedDetailsViewModel : ViewModel() {
         val newListOfFavDogsAsString = Gson().toJson(listOfFavDogs)
 
         with(sharedPreferences.edit()) {
-            putString("key_favorite_on", newListOfFavDogsAsString)
+            putString(FAVORITE_ON_KEY, newListOfFavDogsAsString)
             apply()
         }
 
@@ -65,7 +66,7 @@ class DogBreedDetailsViewModel : ViewModel() {
     private fun getFavoriteDogs(): List<DogBreed> {
         val defaultValue = emptyList<DogBreed>().toString()
         val listOfFavDogsAsString =
-            sharedPreferences.getString("key_favorite_on", defaultValue)
+            sharedPreferences.getString(FAVORITE_ON_KEY, defaultValue)
 
         val listType = object : TypeToken<List<DogBreed>>() {}.type
         return Gson().fromJson(listOfFavDogsAsString, listType)
