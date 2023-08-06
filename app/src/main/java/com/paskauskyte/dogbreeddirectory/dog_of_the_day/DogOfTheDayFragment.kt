@@ -10,10 +10,13 @@ import coil.load
 import coil.size.ViewSizeResolver
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogOfTheDayBinding
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 
 class DogOfTheDayFragment : Fragment() {
 
-    private val viewModel: DogOfTheDayViewModel by viewModels()
+    private val viewModel: DogOfTheDayViewModel by viewModels {
+        DogOfTheDayViewModelFactory(DogBreedRepository())
+    }
 
     private var _binding: FragmentDogOfTheDayBinding? = null
     private val binding get() = _binding!!

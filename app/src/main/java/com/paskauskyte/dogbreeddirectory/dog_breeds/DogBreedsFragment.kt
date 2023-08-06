@@ -25,11 +25,14 @@ import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedsBinding
 import com.paskauskyte.dogbreeddirectory.dog_breeds.recyclerview.DogBreedsAdapter
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 import kotlinx.coroutines.launch
 
 class DogBreedsFragment : Fragment() {
 
-    private val viewModel: DogBreedsViewModel by viewModels()
+    private val viewModel: DogBreedsViewModel by viewModels {
+        DogBreedsViewModelFactory(DogBreedRepository())
+    }
 
     private var recyclerAdapter: DogBreedsAdapter? = null
 
@@ -48,7 +51,6 @@ class DogBreedsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.setSortingMode(getSharedPref())
-        viewModel.getDogList()
         setUpRecyclerView()
         observeDogBreedStateFlow()
         setUpSearchView()
