@@ -92,14 +92,10 @@ class DogBreedsFragment : Fragment() {
 
                 viewModel.dogBreedsStateFlow.collect { response ->
 
-                    submitDogBreeds(response)
+                    recyclerAdapter?.setDogBreedsList(response)
                 }
             }
         }
-    }
-
-    private fun submitDogBreeds(list: List<DogBreed>) {
-        recyclerAdapter?.submitList(list)
     }
 
     private fun setUpSearchView() {
