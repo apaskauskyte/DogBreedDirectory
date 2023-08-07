@@ -4,12 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DogBreedsViewModel : ViewModel() {
+class DogBreedsViewModel(
+    private val repository: DogBreedRepository,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel() {
 
     private val _dogBreedsStateFlow: MutableStateFlow<List<DogBreed>> =
         MutableStateFlow(mutableListOf())
@@ -19,25 +23,28 @@ class DogBreedsViewModel : ViewModel() {
 
     private var sortMode: SortMode = SortMode.AZ
 
+    init {
+        viewModelScope.launch(ioDispatcher) {
+            getDogList()
+        }
+    }
+
+    private suspend fun getDogList() {
+        dogList = repository.fetchDogList()
+        _dogBreedsStateFlow.value = getSortedDogList()
+    }
+
     fun setSortingMode(sortMode: SortMode) {
         if (sortMode != this.sortMode) {
             this.sortMode = sortMode
-            _dogBreedsStateFlow.value = sortDogList()
+            _dogBreedsStateFlow.value = getSortedDogList()
         }
     }
 
-    fun getDogList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _dogBreedsStateFlow.value = DogBreedRepository.instance.fetchDogList()
-            _dogBreedsStateFlow.value = sortDogList()
-            dogList = _dogBreedsStateFlow.value
-        }
-    }
-
-    private fun sortDogList(): List<DogBreed> {
+    private fun getSortedDogList(): List<DogBreed> {
         val sortedDogList = when (sortMode) {
-            SortMode.AZ -> _dogBreedsStateFlow.value.sortedBy { it.name }
-            SortMode.ZA -> _dogBreedsStateFlow.value.sortedByDescending { it.name }
+            SortMode.AZ -> this.dogList.sortedBy { it.name }
+            SortMode.ZA -> this.dogList.sortedByDescending { it.name }
         }
         return sortedDogList
     }
@@ -50,6 +57,10 @@ class DogBreedsViewModel : ViewModel() {
             }
         }
         _dogBreedsStateFlow.value = filteredList
+    }
+
+    fun getCurrentSortingMode(): SortMode {
+        return sortMode
     }
 
     enum class SortMode {

@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Random
 
-class DogOfTheDayViewModel : ViewModel() {
+class DogOfTheDayViewModel(private val repository: DogBreedRepository) : ViewModel() {
 
     private val _dogOfTheDayLiveData = MutableLiveData<DogBreed>()
     val dogOfTheDayLiveData: MutableLiveData<DogBreed>
@@ -26,7 +26,7 @@ class DogOfTheDayViewModel : ViewModel() {
     }
 
     private suspend fun getDogList() {
-        dogList = DogBreedRepository.instance.fetchDogList()
+        dogList = repository.fetchDogList()
     }
 
     private fun getDogOfTheDay() {

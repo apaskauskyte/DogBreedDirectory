@@ -88,7 +88,7 @@ class FavoritesFragment : Fragment() {
 
     private fun observeDogBreed() {
         viewModel.breedLiveData.observe(viewLifecycleOwner) { dogBreed ->
-            viewModel.saveDogBreed(dogBreed)
+            viewModel.assignDogBreed(dogBreed)
         }
     }
 

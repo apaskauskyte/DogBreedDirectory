@@ -86,6 +86,11 @@ class DogBreedsFragment : Fragment() {
         }
     }
 
+    private fun onDogBreedCLick(dogBreed: DogBreed) {
+        transferDataToDogBreedDetailsFragment(dogBreed)
+        (activity as MainActivity).openDogBreedDetails()
+    }
+
     private fun observeDogBreedStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -110,11 +115,6 @@ class DogBreedsFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
-    }
-
-    private fun onDogBreedCLick(dogBreed: DogBreed) {
-        transferDataToDogBreedDetailsFragment(dogBreed)
-        (activity as MainActivity).openDogBreedDetails()
     }
 
     private fun onDogOfTheDayButtonClick() {

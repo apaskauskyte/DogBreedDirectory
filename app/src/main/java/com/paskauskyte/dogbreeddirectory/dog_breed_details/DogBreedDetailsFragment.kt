@@ -67,7 +67,7 @@ class DogBreedDetailsFragment : Fragment() {
         setFragmentResultListener(DogBreedsFragment.REQUEST_KEY_DOG_BREED) { requestKey, bundle ->
             val breed = bundle.getParcelable<DogBreed>(DogBreedsFragment.KEY_DOG_BREED)
                 ?: return@setFragmentResultListener
-            viewModel.saveDogBreed(breed)
+            viewModel.assignDogBreed(breed)
             viewModel.getFavoriteButtonImageStateFlow()
         }
     }
@@ -76,7 +76,7 @@ class DogBreedDetailsFragment : Fragment() {
         setFragmentResultListener(FavoritesFragment.REQUEST_KEY_FAVORITES) { requestKey, bundle ->
             val breed = bundle.getParcelable<DogBreed>(FavoritesFragment.KEY_FAVORITE_DOG)
                 ?: return@setFragmentResultListener
-            viewModel.saveDogBreed(breed)
+            viewModel.assignDogBreed(breed)
             viewModel.getFavoriteButtonImageStateFlow()
         }
     }

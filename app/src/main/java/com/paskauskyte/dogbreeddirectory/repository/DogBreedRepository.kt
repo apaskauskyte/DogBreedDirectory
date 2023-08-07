@@ -8,8 +8,4 @@ class DogBreedRepository {
         val response = DogApiServiceClient.providesApiService().getDogBreeds()
         return response.body() ?: emptyList()
     }
-
-    companion object {
-        val instance: DogBreedRepository = DogBreedRepository()
-    }
 }

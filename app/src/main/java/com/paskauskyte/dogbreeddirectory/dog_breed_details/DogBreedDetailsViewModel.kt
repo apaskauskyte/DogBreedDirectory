@@ -22,8 +22,8 @@ class DogBreedDetailsViewModel : ViewModel() {
     private var _favoriteButtonStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val favoriteButtonStateFlow = _favoriteButtonStateFlow.asStateFlow()
 
-    fun saveDogBreed(breed: DogBreed) {
-        _breedLiveData.value = breed
+    fun assignDogBreed(dogBreed: DogBreed) {
+        _breedLiveData.value = dogBreed
     }
 
     fun setSharedPreferences(sharedPreferences: SharedPreferences) {
@@ -50,11 +50,7 @@ class DogBreedDetailsViewModel : ViewModel() {
             apply()
         }
 
-        updateFavoriteButtonImageStateFlow()
-    }
-
-    private fun updateFavoriteButtonImageStateFlow() {
-        _favoriteButtonStateFlow.value = !_favoriteButtonStateFlow.value
+        _favoriteButtonStateFlow.value = listOfFavDogs.contains(dog)
     }
 
     fun getFavoriteButtonImageStateFlow() {
@@ -65,10 +61,11 @@ class DogBreedDetailsViewModel : ViewModel() {
 
     private fun getFavoriteDogs(): List<DogBreed> {
         val defaultValue = emptyList<DogBreed>().toString()
-        val listOfFavDogsAsString =
-            sharedPreferences.getString(FAVORITE_ON_KEY, defaultValue)
+        val listOfFavDogsAsString = sharedPreferences.getString(FAVORITE_ON_KEY, defaultValue)
 
         val listType = object : TypeToken<List<DogBreed>>() {}.type
-        return Gson().fromJson(listOfFavDogsAsString, listType)
+        val favoriteDogsList = Gson().fromJson<List<DogBreed>>(listOfFavDogsAsString, listType)
+
+        return favoriteDogsList ?: emptyList()
     }
 }
