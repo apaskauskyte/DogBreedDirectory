@@ -33,6 +33,7 @@ class DogOfTheDayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeDogOfTheDay()
+        performLoadingAnimation()
     }
 
     private fun observeDogOfTheDay() {
@@ -74,6 +75,16 @@ class DogOfTheDayFragment : Fragment() {
                         size(ViewSizeResolver(breedImageView))
                     }
                 }
+            }
+        }
+    }
+
+    private fun performLoadingAnimation() {
+        viewModel.loadingSpinnerLiveData.observe(viewLifecycleOwner) { isVisible ->
+            if (isVisible) {
+                binding.loadingSpinner.visibility = View.VISIBLE
+            } else {
+                binding.loadingSpinner.visibility = View.GONE
             }
         }
     }

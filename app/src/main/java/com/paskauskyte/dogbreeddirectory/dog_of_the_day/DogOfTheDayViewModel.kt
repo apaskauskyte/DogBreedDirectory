@@ -18,6 +18,10 @@ class DogOfTheDayViewModel(private val repository: DogBreedRepository) : ViewMod
 
     private var dogList: List<DogBreed> = emptyList()
 
+    private val _loadingSpinnerLiveData = MutableLiveData<Boolean>()
+    val loadingSpinnerLiveData: MutableLiveData<Boolean>
+        get() = _loadingSpinnerLiveData
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             getDogList()
@@ -26,7 +30,9 @@ class DogOfTheDayViewModel(private val repository: DogBreedRepository) : ViewMod
     }
 
     private suspend fun getDogList() {
+        _loadingSpinnerLiveData.postValue(true)
         dogList = repository.fetchDogList()
+        _loadingSpinnerLiveData.postValue(false)
     }
 
     private fun getDogOfTheDay() {
