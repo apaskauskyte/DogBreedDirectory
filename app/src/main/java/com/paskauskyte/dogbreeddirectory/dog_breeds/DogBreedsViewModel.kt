@@ -37,8 +37,8 @@ class DogBreedsViewModel(
     fun setSortingMode(sortMode: SortMode) {
         if (sortMode != this.sortMode) {
             this.sortMode = sortMode
-            _dogBreedsStateFlow.value = getSortedDogList()
         }
+        _dogBreedsStateFlow.value = getSortedDogList()
     }
 
     private fun getSortedDogList(): List<DogBreed> {
