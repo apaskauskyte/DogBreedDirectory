@@ -112,8 +112,9 @@ class DogBreedDetailsFragment : Fragment() {
                     lifeSpan.text = getString(R.string.lifeSpanText, breed.life_span)
                 }
 
-                val url = breed.image?.url
-                if (url.isNullOrEmpty()) {
+                val url = viewModel.getDogImageUrl()
+
+                if (breed.imageId.isNullOrEmpty()) {
                     binding.breedImageView.visibility = View.GONE
                 } else {
                     breedImageView.load(url) {

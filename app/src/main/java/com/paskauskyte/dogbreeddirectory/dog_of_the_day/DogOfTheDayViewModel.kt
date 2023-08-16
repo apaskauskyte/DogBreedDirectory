@@ -44,4 +44,8 @@ class DogOfTheDayViewModel(private val repository: DogBreedRepository) : ViewMod
             _dogOfTheDayLiveData.postValue(dogList[randomIndex])
         }
     }
+
+    fun getDogImageUrl(): String {
+        return "https://cdn2.thedogapi.com/images/" + dogOfTheDayLiveData.value?.imageId + ".jpg"
+    }
 }

@@ -2,7 +2,6 @@ package com.paskauskyte.dogbreeddirectory.repository
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class DogBreed(
@@ -12,15 +11,14 @@ data class DogBreed(
     val life_span: String?,
     val temperament: String?,
     val origin: String?,
-    val image: @RawValue Image?,
+    val reference_image_id: String?,
 ) : Parcelable {
     val bredFor: String?
         get() = bred_for
 
     val lifeSpan: String?
         get() = life_span
-}
 
-data class Image(
-    val url: String?,
-)
+    val imageId: String?
+        get() = reference_image_id
+}

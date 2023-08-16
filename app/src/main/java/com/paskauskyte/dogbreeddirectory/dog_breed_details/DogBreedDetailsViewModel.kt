@@ -68,4 +68,8 @@ class DogBreedDetailsViewModel : ViewModel() {
 
         return favoriteDogsList ?: emptyList()
     }
+
+    fun getDogImageUrl(): String {
+        return "https://cdn2.thedogapi.com/images/" + breedLiveData.value?.imageId + ".jpg"
+    }
 }
