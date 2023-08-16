@@ -12,7 +12,7 @@ data class DogBreed(
     val life_span: String?,
     val temperament: String?,
     val origin: String?,
-    val image: @RawValue Image,
+    val image: @RawValue Image?,
 ) : Parcelable {
     val bredFor: String?
         get() = bred_for

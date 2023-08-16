@@ -67,7 +67,7 @@ class DogOfTheDayFragment : Fragment() {
                     lifeSpan.text = getString(R.string.lifeSpanText, dogOfTheDay.life_span)
                 }
 
-                val url = dogOfTheDay.image.url
+                val url = dogOfTheDay.image?.url
                 if (url.isNullOrEmpty()) {
                     binding.breedImageView.visibility = View.GONE
                 } else {
