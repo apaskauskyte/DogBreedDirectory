@@ -22,3 +22,7 @@ data class DogBreed(
     val imageId: String?
         get() = reference_image_id
 }
+
+data class Image(
+    val url: String?,
+)

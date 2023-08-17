@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.paskauskyte.dogbreeddirectory.Constants.FAVORITE_ON_KEY
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
-import com.paskauskyte.dogbreeddirectory.repository.Image
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -24,13 +24,16 @@ class DogBreedDetailsViewModelTest {
 
     private lateinit var viewModel: DogBreedDetailsViewModel
 
+    private lateinit var mockRepository: DogBreedRepository
+
     private val dogBreed = DogBreed(
-        1, "ADog", "", "", "", "", Image("")
+        1, "ADog", "", "", "", "", ""
     )
 
     @BeforeEach
     fun setup() {
-        viewModel = DogBreedDetailsViewModel()
+        mockRepository = mockk()
+        viewModel = DogBreedDetailsViewModel(mockRepository)
         sharedPreferences = mockk()
         editor = mockk(relaxed = true)
         every { sharedPreferences.edit() } returns editor

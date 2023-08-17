@@ -4,14 +4,18 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.paskauskyte.dogbreeddirectory.Constants.FAVORITE_ON_KEY
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-class DogBreedDetailsViewModel : ViewModel() {
+class DogBreedDetailsViewModel(private val repository: DogBreedRepository) : ViewModel() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -22,8 +26,16 @@ class DogBreedDetailsViewModel : ViewModel() {
     private var _favoriteButtonStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val favoriteButtonStateFlow = _favoriteButtonStateFlow.asStateFlow()
 
+    private val _dogImageUrlLiveData = MutableLiveData<String>()
+    val dogImageUrlLiveData: LiveData<String>
+        get() = _dogImageUrlLiveData
+
     fun assignDogBreed(dogBreed: DogBreed) {
         _breedLiveData.value = dogBreed
+
+        viewModelScope.launch(Dispatchers.IO) {
+            dogBreed.imageId?.let { getDogImageUrl(it) }
+        }
     }
 
     fun setSharedPreferences(sharedPreferences: SharedPreferences) {
@@ -69,7 +81,8 @@ class DogBreedDetailsViewModel : ViewModel() {
         return favoriteDogsList ?: emptyList()
     }
 
-    fun getDogImageUrl(): String {
-        return "https://cdn2.thedogapi.com/images/" + breedLiveData.value?.imageId + ".jpg"
+    private suspend fun getDogImageUrl(imageId: String) {
+        val image = repository.fetchDogImageUrl(imageId)
+        _dogImageUrlLiveData.postValue(image.url)
     }
 }

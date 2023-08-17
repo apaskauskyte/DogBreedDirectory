@@ -19,12 +19,16 @@ import com.paskauskyte.dogbreeddirectory.Constants.FAVORITE_ON_KEY
 import com.paskauskyte.dogbreeddirectory.MainActivity
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentFavoritesBinding
 import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsViewModel
+import com.paskauskyte.dogbreeddirectory.dog_breed_details.DogBreedDetailsViewModelFactory
 import com.paskauskyte.dogbreeddirectory.favorites.recyclerview.FavoritesAdapter
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 
 class FavoritesFragment : Fragment() {
 
-    private val viewModel: DogBreedDetailsViewModel by viewModels()
+    private val viewModel: DogBreedDetailsViewModel by viewModels {
+        DogBreedDetailsViewModelFactory(DogBreedRepository())
+    }
 
     private var recyclerAdapter: FavoritesAdapter? = null
 

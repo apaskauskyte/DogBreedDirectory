@@ -19,14 +19,17 @@ import coil.size.ViewSizeResolver
 import com.paskauskyte.dogbreeddirectory.Constants.FAVORITES_SHARED_PREFS_NAME
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedDetailsBinding
-import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import com.paskauskyte.dogbreeddirectory.dog_breeds.DogBreedsFragment
 import com.paskauskyte.dogbreeddirectory.favorites.FavoritesFragment
+import com.paskauskyte.dogbreeddirectory.repository.DogBreed
+import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
 import kotlinx.coroutines.launch
 
 class DogBreedDetailsFragment : Fragment() {
 
-    private val viewModel: DogBreedDetailsViewModel by viewModels()
+    private val viewModel: DogBreedDetailsViewModel by viewModels {
+        DogBreedDetailsViewModelFactory(DogBreedRepository())
+    }
 
     private var _binding: FragmentDogBreedDetailsBinding? = null
     private val binding get() = _binding!!
@@ -112,13 +115,15 @@ class DogBreedDetailsFragment : Fragment() {
                     lifeSpan.text = getString(R.string.lifeSpanText, breed.life_span)
                 }
 
-                val url = viewModel.getDogImageUrl()
-
-                if (breed.imageId.isNullOrEmpty()) {
-                    binding.breedImageView.visibility = View.GONE
-                } else {
-                    breedImageView.load(url) {
-                        size(ViewSizeResolver(breedImageView))
+                viewModel.dogImageUrlLiveData.observe(
+                    viewLifecycleOwner
+                ) { imageUrl ->
+                    if (imageUrl.isNullOrEmpty()) {
+                        breedImageView.visibility = View.GONE
+                    } else {
+                        breedImageView.load(imageUrl) {
+                            size(ViewSizeResolver(breedImageView))
+                        }
                     }
                 }
             }

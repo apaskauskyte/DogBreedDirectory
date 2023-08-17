@@ -23,13 +23,13 @@ class DogBreedRepositoryTest {
     private val apiService = mockk<ApiService>()
 
     private val dog1 = DogBreed(
-        1, "ADog", "", "", "", "", Image("")
+        1, "ADog", "", "", "", "", ""
     )
     private val dog2 = DogBreed(
-        2, "BDog", "", "", "", "", Image("")
+        2, "BDog", "", "", "", "", ""
     )
     private val dog3 = DogBreed(
-        3, "CDog", "", "", "", "", Image("")
+        3, "CDog", "", "", "", "", ""
     )
 
     private val dogList = listOf(dog1, dog2, dog3)

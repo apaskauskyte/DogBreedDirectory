@@ -8,4 +8,9 @@ class DogBreedRepository {
         val response = DogApiServiceClient.providesApiService().getDogBreeds()
         return response.body() ?: emptyList()
     }
+
+    suspend fun fetchDogImageUrl(imageId: String): Image {
+        val response = DogApiServiceClient.providesApiService().getDogBreedImage(imageId)
+        return response.body() ?: Image("")
+    }
 }

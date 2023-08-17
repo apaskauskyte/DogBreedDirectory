@@ -22,6 +22,10 @@ class DogOfTheDayViewModel(private val repository: DogBreedRepository) : ViewMod
     val loadingSpinnerLiveData: MutableLiveData<Boolean>
         get() = _loadingSpinnerLiveData
 
+    private val _dogImageUrlLiveData = MutableLiveData<String?>()
+    val dogImageUrlLiveData: MutableLiveData<String?>
+        get() = _dogImageUrlLiveData
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             getDogList()
@@ -40,12 +44,18 @@ class DogOfTheDayViewModel(private val repository: DogBreedRepository) : ViewMod
             val today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
             val randomNumber = Random(today.toLong())
             val randomIndex = randomNumber.nextInt(dogList.size)
+            val dogOfTheDay = dogList[randomIndex]
 
-            _dogOfTheDayLiveData.postValue(dogList[randomIndex])
+            viewModelScope.launch(Dispatchers.IO) {
+                dogOfTheDay.imageId?.let { getDogImageUrl(it) }
+            }
+
+            _dogOfTheDayLiveData.postValue(dogOfTheDay)
         }
     }
 
-    fun getDogImageUrl(): String {
-        return "https://cdn2.thedogapi.com/images/" + dogOfTheDayLiveData.value?.imageId + ".jpg"
+    private suspend fun getDogImageUrl(imageId: String) {
+        val image = repository.fetchDogImageUrl(imageId)
+        _dogImageUrlLiveData.postValue(image.url)
     }
 }

@@ -2,7 +2,6 @@ package com.paskauskyte.dogbreeddirectory.dog_breeds
 
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 import com.paskauskyte.dogbreeddirectory.repository.DogBreedRepository
-import com.paskauskyte.dogbreeddirectory.repository.Image
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -23,13 +22,13 @@ class DogBreedsViewModelTest {
     private lateinit var mockRepository: DogBreedRepository
 
     private val dog1 = DogBreed(
-        1, "ADog", "", "", "", "", Image("")
+        1, "ADog", "", "", "", "", ""
     )
     private val dog2 = DogBreed(
-        2, "BDog", "", "", "", "", Image("")
+        2, "BDog", "", "", "", "", ""
     )
     private val dog3 = DogBreed(
-        3, "CDog", "", "", "", "", Image("")
+        3, "CDog", "", "", "", "", ""
     )
 
     private val dogList = listOf(dog3, dog1, dog2)
