@@ -79,7 +79,10 @@ class DogBreedsFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         binding.dogBreedsRecyclerView.apply {
-            recyclerAdapter = DogBreedsAdapter { dogBreed -> onDogBreedCLick(dogBreed) }
+            recyclerAdapter = DogBreedsAdapter(
+                { dogBreed -> onDogBreedCLick(dogBreed) },
+                { onDogBreedLongClick() }
+            )
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -89,6 +92,13 @@ class DogBreedsFragment : Fragment() {
     private fun onDogBreedCLick(dogBreed: DogBreed) {
         transferDataToDogBreedDetailsFragment(dogBreed)
         (activity as MainActivity).openDogBreedDetails()
+    }
+
+    private fun onDogBreedLongClick(): Boolean {
+        val specialDog = viewModel.getSpecialDog()
+        transferDataToDogBreedDetailsFragment(specialDog)
+        (activity as MainActivity).openDogBreedDetails()
+        return true
     }
 
     private fun observeDogBreedStateFlow() {

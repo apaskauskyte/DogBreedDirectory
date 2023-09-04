@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.size.ViewSizeResolver
+import com.paskauskyte.dogbreeddirectory.Constants.SPECIAL_DOG_IMAGE_URL
 import com.paskauskyte.dogbreeddirectory.Constants.FAVORITES_SHARED_PREFS_NAME
 import com.paskauskyte.dogbreeddirectory.R
 import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedDetailsBinding
@@ -118,7 +119,11 @@ class DogBreedDetailsFragment : Fragment() {
                 viewModel.dogImageUrlLiveData.observe(
                     viewLifecycleOwner
                 ) { imageUrl ->
-                    if (imageUrl.isNullOrEmpty()) {
+                    if (breed.imageId == "specialDog") {
+                        breedImageView.load(SPECIAL_DOG_IMAGE_URL) {
+                            size(ViewSizeResolver(breedImageView))
+                        }
+                    } else if (imageUrl.isNullOrEmpty()) {
                         breedImageView.visibility = View.GONE
                     } else {
                         breedImageView.load(imageUrl) {

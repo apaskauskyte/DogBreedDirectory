@@ -7,7 +7,8 @@ import com.paskauskyte.dogbreeddirectory.databinding.FragmentDogBreedsListBindin
 import com.paskauskyte.dogbreeddirectory.repository.DogBreed
 
 class DogBreedsAdapter(
-    private val onClick: (DogBreed) -> Unit
+    private val onClick: (DogBreed) -> Unit,
+    private val onLongClick: (DogBreed) -> Boolean
 ) : RecyclerView.Adapter<DogBreedsViewHolder>() {
 
     private var dogBreedsList: List<DogBreed> = emptyList()
@@ -15,7 +16,7 @@ class DogBreedsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogBreedsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FragmentDogBreedsListBinding.inflate(inflater, parent, false)
-        return DogBreedsViewHolder(binding, onClick)
+        return DogBreedsViewHolder(binding, onClick, onLongClick)
     }
 
     override fun onBindViewHolder(holder: DogBreedsViewHolder, position: Int) {

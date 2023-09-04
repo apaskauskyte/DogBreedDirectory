@@ -63,6 +63,18 @@ class DogBreedsViewModel(
         return sortMode
     }
 
+    fun getSpecialDog(): DogBreed {
+        return DogBreed(
+            1000000,
+            "Gilė",
+            "Being the bestest dog in the world",
+            "Forever",
+            "Sweet, loyal, clingy, passionate",
+            "Heaven",
+            "specialDog"
+        )
+    }
+
     enum class SortMode {
         AZ, ZA
     }
